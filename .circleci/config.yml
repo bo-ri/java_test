@@ -1,0 +1,9 @@
+version: '2'
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/java_test
+    steps:
+      - checkout
+      - run: gradle test
