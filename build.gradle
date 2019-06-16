@@ -26,4 +26,7 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    // testImplementation 'org.hamcrest.core.Is'
+    compile fileTree(dir: 'libs', include: '*.jar')
+    runtime files('./libs')
 }
