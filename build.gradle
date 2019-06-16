@@ -30,3 +30,26 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     runtime files('./libs')
 }
+
+// defaultTsks 'changeClassName'
+
+task helloWorld {
+    doLast {
+        println "Hello World"
+    }
+}
+
+task changeClassName {
+    doLast {
+        def filePath = "src/main/java/";
+        fileList(filePath + "K11").each { File file ->
+            println "this is $file.name"
+            ant.loadFile(srcFile: file, property: file)
+        }
+    }
+}
+
+File[] fileList(String dir) {
+    file(dir).listFiles({file -> file.isFile() } as FileFilter).sort()
+}
+
