@@ -39,6 +39,7 @@ task helloWorld {
     }
 }
 
+// あとで
 task changeClassName {
     doLast {
         def filePath = "src/main/java/";
@@ -48,9 +49,10 @@ task changeClassName {
                 deleteFile(filePath + "K11/" + file.name)
                 return
             }
+            ant.move(file: filePath + "K11/" + file.name, tofile: filePath + "K11/" + "K11_" + file.name, overwrite: true)
             // load .java file
-            ant.loadfile(srcFile: file, property: file.name)
-            rewriteClassName(filePath + "K11/", file.name, "K11")
+            ant.loadfile(srcFile: filePath + "K11/" + "K11_" + file.name, property: file.name)
+            rewriteClassName(filePath + "K11/", "K11_" + file.name, "K11")
             println ant.properties[file.name]
         }
     }
@@ -60,6 +62,8 @@ void deleteFile(String file) {
     project.delete file
 }
 
+// クラス名の最初に数字不可
+// ファイル名自体renameする必要あり
 void rewriteClassName(String dir, String file, String grade) {
     // クラス名間違えてるやつ除外する
     // しないならgradeには同じ値を呼び出し元で引数にするべき
