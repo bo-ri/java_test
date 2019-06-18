@@ -43,13 +43,28 @@ task changeClassName {
     doLast {
         def filePath = "src/main/java/";
         fileList(filePath + "K11").each { File file ->
-            println "this is $file.name"
+            // delete .txt and continue iterate
             if (file.name.contains(".txt")) {
-                project.delete file.name
+                deleteFile(filePath + "K11/" + file.name)
+                return
             }
+            // load .java file
             ant.loadfile(srcFile: file, property: file.name)
+            rewriteClassName(filePath + "K11/", file.name, "K11")
+            println ant.properties[file.name]
         }
     }
+}
+
+void deleteFile(String file) {
+    project.delete file
+}
+
+void rewriteClassName(String dir, String file, String grade) {
+    // クラス名間違えてるやつ除外する
+    // しないならgradeには同じ値を呼び出し元で引数にするべき
+    def fileNames = file.split(".java")[0].toString()
+    ant.replace(file: dir + file, token:"public class ${grade}", value:"public class ${fileNames}")
 }
 
 File[] fileList(String dir) {
