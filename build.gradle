@@ -50,11 +50,6 @@ task changeClassName {
                 return
             }
             createTargetFile(file, "K11")
-            // ant.move(file: filePath + "K11/" + file.name, tofile: filePath + "K11/" + "K11_" + file.name, overwrite: false)
-            // // load .java file
-            // ant.loadfile(srcFile: filePath + "K11/" + "K11_" + file.name, property: file.name)
-            // rewriteClassName(filePath + "K11/", "K11_" + file.name, "K11")
-            // println ant.properties[file.name]
         }
     }
 }
@@ -68,17 +63,16 @@ void deleteFile(String file) {
 void createTargetFile(file, grade) {
     // クラス名間違えてるやつ除外する
     // しないならgradeには同じ値を呼び出し元で引数にするべき
-    // def fileNames = file.split(".java")[0].toString()
-    // ant.replace(file: dir + file, token:"public class ${grade}", value:"public class ${fileNames}")
-    // ant.echo(file: dir + file, append: "yes", message: "package test.java.${grade};")
 
     def filePath = "src/main/java/${grade}/${grade}_${file.name}"
-    def fileName = file.name.split('.java')[0].toString()
+    def fileName = "${grade}_${file.name}".split('.java')[0].toString()
 
     ant.loadfile(srcFile: file, property: file.name)
     ant.touch(file: filePath)
-    ant.echo(file: filePath, append: "yes", message: "package test.java.${grade};\n\n")
+    ant.echo(file: filePath, append: "yes", message: "package test.java;\n\n")
     ant.echo(file: filePath, append: "yes", message: ant.properties[file.name])
+    // 謎にpackageしてる学生いるからここでコメントアウトしておく
+    ant.replace(file: filePath, token: "package ${grade};", value: "// package ${grade};")
     ant.replace(file: filePath, token:"public class ${grade}", value:"public class ${fileName}")
 
     deleteFile("src/main/java/${grade}/${file.name}")
