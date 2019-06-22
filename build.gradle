@@ -42,14 +42,17 @@ task helloWorld {
 // あとで
 task changeClassName {
     doLast {
-        def filePath = "src/main/java/";
-        fileList(filePath + "K11").each { File file ->
-            // delete .txt and continue iterate
-            if (file.name.contains(".txt")) {
-                deleteFile(filePath + "K11/" + file.name)
-                return
+        def stage = 'K1'
+        def filePath = 'src/main/java/'
+        dirList(filePath + stage).each { File dir ->
+            fileList(dir.toString()).each { File file ->
+                // delete .txt and continue iterate
+                if (file.name.contains('.txt')) {
+                    deleteFile("${dir}/${file.name}")
+                    return
+                }
+                createTargetFile(file, dir.name, stage)
             }
-            createTargetFile(file, "K11")
         }
     }
 }
@@ -60,27 +63,35 @@ void deleteFile(String file) {
 
 // クラス名の最初に数字不可
 // ファイル名自体renameする必要あり
-void createTargetFile(file, grade) {
+void createTargetFile(file, grade, stage) {
     // クラス名間違えてるやつ除外する
     // しないならgradeには同じ値を呼び出し元で引数にするべき
 
-    def filePath = "src/main/java/${grade}/${grade}_${file.name}"
-    def fileName = "${grade}_${file.name}".split('.java')[0].toString()
+    if (file.name.contains('.java')) {
+        def filePath = "src/main/java/${stage}/${grade}/${grade}_${file.name}"
+        def fileName = "${grade}_${file.name}".split('.java')[0].toString()
 
-    ant.loadfile(srcFile: file, property: file.name)
-    // ant.replace(file: filePath, token: "packate test.java", value: "// package test.java")
-    ant.loadfile(srcFile: file, property: file.name)
-    ant.touch(file: filePath)
-    ant.echo(file: filePath, append: "yes", message: "package test.java;\n\n")
-    ant.echo(file: filePath, append: "yes", message: ant.properties[file.name])
-    // 謎にpackageしてる学生いるからここでコメントアウトしておく
-    ant.replace(file: filePath, token: "package ${grade};", value: "// package ${grade};")
-    ant.replace(file: filePath, token:"public class ${grade}", value:"public class ${fileName}")
+        ant.loadfile(srcFile: file, property: file.name)
+        // ant.replace(file: filePath, token: "packate test.java", value: "// package test.java")
+        ant.loadfile(srcFile: file, property: file.name)
+        ant.touch(file: filePath)
+        ant.echo(file: filePath, append: "yes", message: "package test.java;\n\n")
+        ant.echo(file: filePath, append: "yes", message: ant.properties[file.name])
+        // 謎にpackageしてる学生いるからここでコメントアウトしておく
+        ant.replace(file: filePath, token: "package ${grade};", value: "// package ${grade};")
+        ant.replace(file: filePath, token:"public class ${grade}", value:"public class ${fileName}")   
+    } else {
+        println "delete invalid extension file -> ${file.name}"
+    }
 
-    deleteFile("src/main/java/${grade}/${file.name}")
+    deleteFile("src/main/java/${stage}/${grade}/${file.name}")
 }
 
 File[] fileList(String dir) {
     file(dir).listFiles({file -> file.isFile() } as FileFilter).sort()
+}
+
+File[] dirList(String dir) {
+    file(dir).listFiles()
 }
 
