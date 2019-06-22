@@ -68,6 +68,8 @@ void createTargetFile(file, grade) {
     def fileName = "${grade}_${file.name}".split('.java')[0].toString()
 
     ant.loadfile(srcFile: file, property: file.name)
+    // ant.replace(file: filePath, token: "packate test.java", value: "// package test.java")
+    ant.loadfile(srcFile: file, property: file.name)
     ant.touch(file: filePath)
     ant.echo(file: filePath, append: "yes", message: "package test.java;\n\n")
     ant.echo(file: filePath, append: "yes", message: ant.properties[file.name])
