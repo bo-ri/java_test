@@ -1,0 +1,11 @@
+version: '3'
+services:
+  groovy:
+    image: groovy:jdk8
+    volumes:
+      - ./:/home/groovy/java_test/
+    environment:
+      - CLASSPATH=.:/home/groovy/java_test/libs/*:/home/groovy/java_test/
+    working_dir: /home/groovy/java_test/
+    tty: true
+    command: /bin/bash

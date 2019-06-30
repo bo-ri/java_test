@@ -1,16 +1,17 @@
-package test.java.sample;
+// package test.java.sample;
 
 // import org.hamcrest.core.Is;
-import libs.StandardOutput;
-import libs.StandardInput;
+import myutils.StandardInput;
+import myutils.StandardOutput;
 
 import org.junit.Test;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.*;
 
-import main.java.TargetTest;
+import src.main.java.sample.TargetTest;
 
 
 public class SampleTest {

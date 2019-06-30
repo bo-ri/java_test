@@ -15,3 +15,11 @@ $ curl -o /usr/local/bin/circleci https://circle-downloads.s3.amazonaws.com/rele
 ```
 $ circleci build
 ```
+
+## memo 
+- 特定のテストだけ実行したい
+`$ gradle -D test.single=K1/TestK11 test`
+test.singleに渡すのは`src/test/`以下の該当テストコード
+
+- コマンドラインからjunit実行
+`$ java org.junit.runner.JUnitCore CLASS_NAME`

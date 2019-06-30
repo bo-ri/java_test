@@ -1,4 +1,4 @@
-package libs;
+package myutils;
 
 import java.io.IOException;
 import java.io.InputStream;

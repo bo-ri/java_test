@@ -1,0 +1,1 @@
+export CLASSPATH=.:/home/groovy/java_test/libs/*:/home/groovy/java_test/
