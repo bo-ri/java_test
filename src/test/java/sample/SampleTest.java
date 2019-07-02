@@ -1,4 +1,4 @@
-// package test.java.sample;
+package src.test.java.sample;
 
 // import org.hamcrest.core.Is;
 import myutils.StandardInput;
@@ -30,10 +30,11 @@ public class SampleTest {
     System.setIn(null);
   }
 
-  @Test
+  @Test (expected = RuntimeException.class)
   public void testHello() {
+    
     in.inputln("aaa");
-    in.inputln("bbb");
+    in.inputln("bbbb");
 
     TargetTest.main(null);
     Assert.assertThat(out.readLine(), Is.is("INPUT: "));
