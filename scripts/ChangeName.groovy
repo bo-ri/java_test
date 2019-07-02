@@ -2,17 +2,17 @@ package scripts;
 
 public class ChangeName{
 
-  static void changeClassName (String stage) {
+  static void changeClassName (String lecNum) {
     String targetFilePath = 'src/main/java/'
     String testFilePath = 'src/test/java'
-    fileList("../${targetFilePath}${stage}").each { File dir ->
+    fileList("../${targetFilePath}${lecNum}").each { File dir ->
       fileList(dir.toString()).each { File file ->
         if (file.name.contains('.txt')) {
           deleteFile("${dir}/${file.name}")
           return
         }
         println "before createTargerFile"
-        createTargetFile(file, dir.name.toString(), stage)
+        createTargetFile(file, dir.name.toString(), lecNum)
       }
     }
   }
@@ -27,21 +27,21 @@ public class ChangeName{
     file.listFiles()
   }
 
-  static def createTargetFile(file, grade, stage) {
+  static def createTargetFile(File file, String question, String lecNum) {
     if (file.name.contains('.java')) {
-      String defaultFilePath = "../src/main/java/${stage}/${grade}/${file.name}"
-      String newFilePath = "../src/main/java/${stage}/${grade}/${grade}_${file.name}"
-      String fileName = "${grade}_${file.name}".split('.java')[0].toString()
+      String defaultFilePath = "../src/main/java/${lecNum}/${question}/${file.name}"
+      String newFilePath = "../src/main/java/${lecNum}/${question}/${question}_${file.name}"
+      String fileName = "${question}_${file.name}".split('.java')[0].toString()
 
       String defaultCode = new File(file.toString()).text
-      defaultCode = defaultCode.replaceAll("package ${grade};", "")
-      defaultCode = defaultCode.replaceAll("public class ${grade}", "public class ${fileName}")
+      defaultCode = defaultCode.replaceAll("package ${question};", "")
+      defaultCode = defaultCode.replaceAll("public class ${question}", "public class ${fileName}")
       
       // create new file
       def testCodeFile = new File(newFilePath)
 
       // add package statement
-      testCodeFile.text = "pacakge ${grade};\n\n"
+      testCodeFile.text = "pacakge ${question};\n\n"
 
       // add test code
       testCodeFile.append(defaultCode)
@@ -52,12 +52,12 @@ public class ChangeName{
       println "delete invalid extension file -> ${file.name}"
       // deleted action here
     }
-    deleteFile("../src/main/java/${stage}/${grade}/${file.name}")
+    deleteFile("../src/main/java/${lecNum}/${question}/${file.name}")
   }
 
 
   public static void main(String[] args) {
-    String stage = "K1"
-    changeClassName(stage)
+    String lecNum = "K1"
+    changeClassName(lecNum)
   }
 }
