@@ -1,11 +1,12 @@
 version: '3'
 services:
   groovy:
-    image: groovy:jdk8
+    build:
+      context: .
     volumes:
-      - ./:/home/groovy/java_test/
+      - ./:/home/circleci/java_test/
     environment:
-      - CLASSPATH=.:/home/groovy/java_test/libs/*:/home/groovy/java_test/
-    working_dir: /home/groovy/java_test/
+      - CLASSPATH=.:/home/circleci/java_test/libs/*:/home/circleci/java_test/
+    working_dir: /home/circleci/java_test/
     tty: true
     command: /bin/bash
