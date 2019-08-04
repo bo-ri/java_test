@@ -55,22 +55,5 @@ public class SampleTest {
       Assert.assertThat(out.readLine(), Is.is("INPUT: "));
       Assert.assertThat(out.readLine(), Is.is("OUTPUT: bbb"));
       Assert.assertThat(out.readLine(), Is.is("PROGRAM END"));
-
-    // }catch (AssertionError e) {
-    //   // after();
-    //   throw e;
-    // }
-
-    // in.inputln("aaa");
-    // in.inputln("bbb");
-    // TargetTest.main(null);
-    // Assert.assertThat(out.readLine(), Is.is("INPUT: "));
-    // Assert.assertThat(out.readLine(), Is.is("OUTPUT: aaa"));
-    // Assert.assertThat(out.readLine(), Is.is("INPUT: "));
-    // Assert.assertThat(out.readLine(), Is.is("OUTPUT: bbb"));
-    // Assert.assertThat(out.readLine(), Is.is("PROGRAM END"));
-
-
-    // after();
   }
 }
