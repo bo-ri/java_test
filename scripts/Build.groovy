@@ -1,18 +1,30 @@
 package scripts;
 
+// testの実行
 public class Build {
   public static void main(String[] args) {
-
+    compileAll('../src/main/java/K1')
   }
 
-  // build java file
-  static String compile(String file, String lecNum, String question) {
-    try {
-      // String filePath = "../src/main/java/${stage}/${grade}/file.name"
-      "javac src/main/java/${lecNum}/${question}/${file.name.toString()}".execute().waitFor()
-      return file.name.split('.java')[0].toString() + ".class"
-    } catch (IOExeption e) {
-      return null
+  // src/main/java/test以下の全てのtest実行
+  static String compileAll(String targetdir) {
+    File dirs = new File(targetdir)
+    dirs.listFiles().each { File dir ->
+    println dir
+      File files = new File(dir.toString())
+      files.listFiles().each { File file ->
+        println file
+        println compile(file)
+      }
     }
   }
+
+  // build individual java file
+  // fileオブジェクト渡せばbuildする
+  static String compile(File file) {
+    "javac ${file}".execute().waitFor()
+    return file.name.split('.java')[0].toString() + ".class"
+    
+  }
+
 }
